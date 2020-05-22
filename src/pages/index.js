@@ -7,6 +7,7 @@ import {
     List,
     ListIcon,
     ListItem,
+    Avatar,
 } from '@chakra-ui/core';
 
 import { Hero } from '../components/Hero';
@@ -18,6 +19,7 @@ import { Footer } from '../components/Footer';
 
 const Index = () => (
     <Container>
+        <Avatar name="Miguel de los Reyes" src="/mig.jpg" />
         <Hero />
         <Main>
             <Text>Miguel's website</Text>
