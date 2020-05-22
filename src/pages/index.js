@@ -23,7 +23,7 @@ const Index = () => (
                 alt="Miguel de los Reyes"
                 src="/mig.jpg"
             />
-            <Text fontSize="3xl">Hey everyone, Miguel here</Text>
+            <Text fontSize="3xl">Hey testing, Miguel here</Text>
         </Stack>
     </>
 );
