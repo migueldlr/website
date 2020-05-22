@@ -1,6 +1,6 @@
 import Head from 'next/head';
 import { withTheme } from 'emotion-theming';
-import { Text, Stack, Image } from '@chakra-ui/core';
+import { Text, Stack, Image, Heading } from '@chakra-ui/core';
 
 import { DarkModeSwitch } from '../components/DarkModeSwitch';
 
@@ -13,25 +13,18 @@ const Index = () => (
         <Stack
             spacing="1.5rem"
             width="100%"
+            height="100vh"
             alignItems="center"
-            justifyContent="flex-start"
-            pt="8rem"
-            px="1rem">
+            justifyContent="center">
+            <Heading>Miguel de los Reyes</Heading>
             <Image
-                size="300px"
+                size="250px"
                 rounded="full"
                 alt="Miguel de los Reyes"
                 src="/mig.jpg"
             />
-
-            <Text fontSize="4xl">Hey everyone, Miguel here!</Text>
+            <Text fontSize="3xl">Hey everyone, Miguel here</Text>
         </Stack>
-        <style jsx>{`
-            @font-face {
-                font-family: 'Nunito';
-                src: url('/fonts/Nunito-Regular.ttf');
-            }
-        `}</style>
     </>
 );
 

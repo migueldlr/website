@@ -2,6 +2,7 @@ import { theme as chakraTheme } from '@chakra-ui/core';
 
 const fonts = {
     ...chakraTheme.fonts,
+    heading: 'Nunito, sans-serif',
     body: 'Nunito, sans-serif',
     mono: `'Menlo', monospace`,
 };
