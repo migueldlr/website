@@ -24,10 +24,14 @@ const Index = () => (
                 src="/mig.jpg"
             />
 
-            <Text fontFamily="mono" fontSize="4xl">
-                Hey everyone, Miguel here!
-            </Text>
+            <Text fontSize="4xl">Hey everyone, Miguel here!</Text>
         </Stack>
+        <style jsx>{`
+            @font-face {
+                font-family: 'Nunito';
+                src: url('/fonts/Nunito-Regular.ttf');
+            }
+        `}</style>
     </>
 );
 
