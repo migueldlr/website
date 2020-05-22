@@ -20,7 +20,7 @@ const Index = () => (
     <Container>
         <Hero />
         <Main>
-            <Text>Miguel's test website</Text>
+            <Text>Miguel's website</Text>
             <Text>
                 Example repository of <Code>Next.js</Code> +{' '}
                 <Code>chakra-ui</Code>.
