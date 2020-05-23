@@ -3,6 +3,7 @@ import { withTheme } from 'emotion-theming';
 import { Text, Stack, Image, Heading } from '@chakra-ui/core';
 
 import { DarkModeSwitch } from '../components/DarkModeSwitch';
+import SocialGrid from '../components/SocialGrid';
 
 const Index = () => (
     <>
@@ -16,14 +17,17 @@ const Index = () => (
             height="100vh"
             alignItems="center"
             justifyContent="center">
-            <Heading>Miguel de los Reyes</Heading>
+            <Heading fontSize={['3xl', '5xl']}>Miguel de los Reyes</Heading>
             <Image
-                size="250px"
+                size="2xs"
                 rounded="full"
                 alt="Miguel de los Reyes"
                 src="/mig.jpg"
             />
-            <Text fontSize="3xl">Hey everyone, Miguel here</Text>
+            <Text textAlign="center" fontSize={['xl', '3xl']}>
+                Hey everyone, Miguel here!
+            </Text>
+            <SocialGrid />
         </Stack>
     </>
 );
