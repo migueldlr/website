@@ -91,17 +91,14 @@ function getLines(points) {
             const l = i;
             const r = i + (j % 3);
             if (!edgeSetContains(edgeSet, [triangles[l], triangles[r]])) {
-                // if (distance(points[triangles[l]], points[triangles[r]]) < 50) {
-                //     maybe(
-                //         () =>
-                //             drawLine(
-                //                 ctx,
-                //                 points[triangles[l]],
-                //                 points[triangles[r]],
-                //             ),
-                //         p,
-                //     );
-                // }
+                if (
+                    distance(points[triangles[l]], points[triangles[r]]) < 150
+                ) {
+                    lines.push({
+                        from: points[triangles[l]],
+                        to: points[triangles[r]],
+                    });
+                }
                 edgeSet.push([triangles[l], triangles[r]]);
             }
         }
@@ -112,7 +109,7 @@ function getLines(points) {
         const e = mst[i];
         // if (!edgeSetContains(edgeSet, [e.from(), e.to()]))
         // drawLine(ctx, points[e.from()], points[e.to()]);
-        lines.push({ from: points[e.from()], to: points[e.to()] });
+        // lines.push({ from: points[e.from()], to: points[e.to()] });
     }
     return lines;
 }
@@ -127,22 +124,25 @@ const Dots = () => {
     const theme = useTheme();
     const { colorMode } = useColorMode();
     const lineColor = {
-        light: theme.colors.green[200],
+        light: theme.colors.green[100],
         dark: theme.colors.green[900],
     };
     const dotColor = { light: theme.colors.green[900], dark: 'white' };
     const svgRef = useRef();
-    const NUM_POINTS = 300;
+
+    const size = convertRemToPixels(theme.sizes['2xs'].replace('rem', ''));
+    const NUM_POINTS = 1000;
+    const IN_RADIUS = size / 2 + 7;
+    console.log(IN_RADIUS);
+    const OUT_RADIUS = 700;
     const [elem] = useState(
         (() => {
-            const points = getPoints(NUM_POINTS, 132, 200);
+            const points = getPoints(NUM_POINTS, IN_RADIUS, OUT_RADIUS);
             const lines = getLines(points);
             console.log(lines);
             return { points, lines };
         })(),
     );
-
-    const size = convertRemToPixels(theme.sizes['sm'].replace('rem', ''));
 
     return (
         <svg
@@ -160,18 +160,22 @@ const Dots = () => {
                     x2={line.to[0]}
                     y2={line.to[1]}
                     key={i}
-                    style={{ stroke: lineColor[colorMode], strokeWidth: 1 }}
+                    style={{
+                        stroke: lineColor[colorMode],
+                        strokeWidth: 2,
+                        strokeLinecap: 'round',
+                    }}
                 />
             ))}
-            {elem.points.map(([x, y], i) => (
+            {/* {elem.points.map(([x, y], i) => (
                 <circle
                     cx={x}
                     cy={y}
-                    r={1}
+                    r={2}
                     fill={dotColor[colorMode]}
                     key={i}
                 />
-            ))}
+            ))} */}
         </svg>
     );
 };

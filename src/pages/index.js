@@ -22,7 +22,7 @@ const Index = () => (
             <Heading fontSize={['3xl', '5xl']}>Miguel de los Reyes</Heading>
             <Box
                 position="relative"
-                size="sm"
+                size="2xs"
                 display="flex"
                 alignItems="center"
                 justifyContent="center">
