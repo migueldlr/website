@@ -1,6 +1,8 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Delaunator from 'delaunator';
 import { WeightedGraph, Edge, KruskalMST } from 'js-graph-algorithms';
+import * as d3 from 'd3';
+import { Box, useTheme } from '@chakra-ui/core';
 
 function pointInDonut(center, inRadius, outRadius) {
     const r = Math.random() * (outRadius - inRadius) + inRadius;
@@ -68,78 +70,102 @@ function getMST(points, edges) {
 function maybe(e, p) {
     if (Math.random() < p) e();
 }
+function getPoints(n, inRadius, outRadius) {
+    const points = [];
+    for (let i = 0; i < n; i++) {
+        const point = pointInDonut({ x: 0, y: 0 }, inRadius, outRadius);
+        // drawCircle(ctx, point);
+        points.push(point);
+    }
+    console.log(points);
+    return points;
+}
 
-const Dots = () => {
-    const canvasRef = useRef(null);
-    let canvas, ctx;
-    useEffect(() => {
-        canvas = canvasRef.current;
-        ctx = canvas.getContext('2d');
-        const { width, height } = canvas.getBoundingClientRect();
-        ctx.clearRect(0, 0, width, height);
-        const points = [];
-        const NUM_POINTS = 500;
-        for (let i = 0; i < NUM_POINTS; i++) {
-            const point = pointInDonut(
-                { x: width / 2, y: height / 2 },
-                125,
-                200,
-            );
-            drawCircle(ctx, point);
-            points.push(point);
-        }
-        console.log(points);
-        const delaunay = Delaunator.from(points);
-        console.log(delaunay.triangles);
-        const triangles = delaunay.triangles;
-        const edgeSet = [];
-        const p = 0;
-        for (let i = 0; i < triangles.length; i += 3) {
-            for (let j = 0; j < 3; j++) {
-                const l = i;
-                const r = i + (j % 3);
-                if (!edgeSetContains(edgeSet, [triangles[l], triangles[r]])) {
-                    if (
-                        distance(points[triangles[l]], points[triangles[r]]) <
-                        50
-                    ) {
-                        maybe(
-                            () =>
-                                drawLine(
-                                    ctx,
-                                    points[triangles[l]],
-                                    points[triangles[r]],
-                                ),
-                            p,
-                        );
-                    }
-                    edgeSet.push([triangles[l], triangles[r]]);
-                }
+function getLines(points) {
+    const delaunay = Delaunator.from(points);
+    const triangles = delaunay.triangles;
+    const edgeSet = [];
+    const lines = [];
+    for (let i = 0; i < triangles.length; i += 3) {
+        for (let j = 0; j < 3; j++) {
+            const l = i;
+            const r = i + (j % 3);
+            if (!edgeSetContains(edgeSet, [triangles[l], triangles[r]])) {
+                // if (distance(points[triangles[l]], points[triangles[r]]) < 50) {
+                //     maybe(
+                //         () =>
+                //             drawLine(
+                //                 ctx,
+                //                 points[triangles[l]],
+                //                 points[triangles[r]],
+                //             ),
+                //         p,
+                //     );
+                // }
+                edgeSet.push([triangles[l], triangles[r]]);
             }
         }
+    }
+    console.log(edgeSet);
+    const mst = getMST(points, edgeSet);
+    for (let i = 0; i < mst.length; i++) {
+        const e = mst[i];
+        // if (!edgeSetContains(edgeSet, [e.from(), e.to()]))
+        // drawLine(ctx, points[e.from()], points[e.to()]);
+        lines.push({ from: points[e.from()], to: points[e.to()] });
+    }
+    return lines;
+}
 
-        console.log(edgeSet);
-        const mst = getMST(points, edgeSet);
-        for (let i = 0; i < mst.length; i++) {
-            const e = mst[i];
-            // if (!edgeSetContains(edgeSet, [e.from(), e.to()]))
-            drawLine(ctx, points[e.from()], points[e.to()]);
-        }
-    }, [canvasRef.current]);
-    // ctx.fillStyle = 'blue';
-    // ctx.fillRect(0, 0, canvas.width, canvas.height);
+function convertRemToPixels(rem) {
+    return (
+        rem * parseFloat(getComputedStyle(document.documentElement).fontSize)
+    );
+}
+
+const Dots = () => {
+    const theme = useTheme();
+    const svgRef = useRef();
+    const NUM_POINTS = 300;
+    const [elem] = useState(
+        (() => {
+            const points = getPoints(NUM_POINTS, 132, 200);
+            const lines = getLines(points);
+            console.log(lines);
+            return { points, lines };
+        })(),
+    );
+
+    const size = convertRemToPixels(theme.sizes['sm'].replace('rem', ''));
 
     return (
-        <canvas
+        <svg
             id="dots"
-            ref={canvasRef}
-            width={400}
-            height={400}
-            onClick={(e) => {
-                const rect = canvas.getBoundingClientRect();
-                drawCircle(ctx, [e.clientX - rect.x, e.clientY - rect.y]);
-            }}
-        />
+            ref={svgRef}
+            height={size}
+            width={size}
+            viewBox={`${-size / 2} ${-size / 2} ${size} ${size}`}
+            overflow="visible">
+            {elem.lines.map((line, i) => (
+                <line
+                    x1={line.from[0]}
+                    y1={line.from[1]}
+                    x2={line.to[0]}
+                    y2={line.to[1]}
+                    key={i}
+                    style={{ stroke: theme.colors.green[200], strokeWidth: 1 }}
+                />
+            ))}
+            {elem.points.map(([x, y], i) => (
+                <circle
+                    cx={x}
+                    cy={y}
+                    r={1}
+                    fill={theme.colors.green[900]}
+                    key={i}
+                />
+            ))}
+        </svg>
     );
 };
 
