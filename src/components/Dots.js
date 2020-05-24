@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import Delaunator from 'delaunator';
 import { WeightedGraph, Edge, KruskalMST } from 'js-graph-algorithms';
 import * as d3 from 'd3';
-import { Box, useTheme } from '@chakra-ui/core';
+import { Box, useTheme, useColorMode } from '@chakra-ui/core';
 
 function pointInDonut(center, inRadius, outRadius) {
     const r = Math.random() * (outRadius - inRadius) + inRadius;
@@ -125,6 +125,12 @@ function convertRemToPixels(rem) {
 
 const Dots = () => {
     const theme = useTheme();
+    const { colorMode } = useColorMode();
+    const lineColor = {
+        light: theme.colors.green[200],
+        dark: theme.colors.green[900],
+    };
+    const dotColor = { light: theme.colors.green[900], dark: 'white' };
     const svgRef = useRef();
     const NUM_POINTS = 300;
     const [elem] = useState(
@@ -144,6 +150,7 @@ const Dots = () => {
             ref={svgRef}
             height={size}
             width={size}
+            style={{ zIndex: -1 }}
             viewBox={`${-size / 2} ${-size / 2} ${size} ${size}`}
             overflow="visible">
             {elem.lines.map((line, i) => (
@@ -153,7 +160,7 @@ const Dots = () => {
                     x2={line.to[0]}
                     y2={line.to[1]}
                     key={i}
-                    style={{ stroke: theme.colors.green[200], strokeWidth: 1 }}
+                    style={{ stroke: lineColor[colorMode], strokeWidth: 1 }}
                 />
             ))}
             {elem.points.map(([x, y], i) => (
@@ -161,7 +168,7 @@ const Dots = () => {
                     cx={x}
                     cy={y}
                     r={1}
-                    fill={theme.colors.green[900]}
+                    fill={dotColor[colorMode]}
                     key={i}
                 />
             ))}
