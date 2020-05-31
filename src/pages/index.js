@@ -9,6 +9,10 @@ const Index = () => (
     <>
         <Head>
             <title>Miguel's website</title>
+            <meta
+                name="google-site-verification"
+                content="U9e3mw3p4czRArRMZlBkylWhkPuboUIuUaOHWwvqrk8"
+            />
         </Head>
         <DarkModeSwitch />
         <Stack
