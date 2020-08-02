@@ -2,12 +2,7 @@ import React from 'react';
 import { Grid } from '@chakra-ui/core';
 import SocialLink from '../components/SocialLink';
 
-import {
-  FaRegFileAlt,
-  FaInstagram,
-  FaLinkedin,
-  FaGithub,
-} from 'react-icons/fa';
+import { FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';
 
 const SocialGrid = () => {
   return (

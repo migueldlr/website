@@ -7,11 +7,14 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-plugin-web-font-loader',
+      resolve: `gatsby-plugin-prefetch-google-fonts`,
       options: {
-        google: {
-          families: ['Nunito:400,700'],
-        },
+        fonts: [
+          {
+            family: `Nunito`,
+            variants: [`400`, `700`],
+          },
+        ],
       },
     },
     `gatsby-plugin-sharp`,
