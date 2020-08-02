@@ -52,7 +52,7 @@ export const query = graphql`
   query MyQuery {
     file(relativePath: { eq: "mig.jpg" }) {
       childImageSharp {
-        fixed {
+        fixed(height: 750, width: 750) {
           ...GatsbyImageSharpFixed
         }
       }
