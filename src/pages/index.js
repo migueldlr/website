@@ -12,7 +12,7 @@ const Index = ({ data }) => {
   return (
     <>
       <Helmet>
-        <title>Miguel's website</title>
+        <title>Miguel de los Reyes</title>
         <meta
           name="google-site-verification"
           content="U9e3mw3p4czRArRMZlBkylWhkPuboUIuUaOHWwvqrk8"
