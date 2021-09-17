@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid } from '@chakra-ui/core';
+import { Grid } from '@chakra-ui/react';
 import SocialLink from '../components/SocialLink';
 
 import { FaInstagram, FaLinkedin, FaGithub } from 'react-icons/fa';

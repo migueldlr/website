@@ -1,7 +1,7 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import Img from 'gatsby-image';
-import { Text, Stack, useTheme, Link } from '@chakra-ui/core';
+import { GatsbyImage } from 'gatsby-plugin-image';
+import { Text, Stack, useTheme, Link } from '@chakra-ui/react';
 
 import { DarkModeSwitch } from '../components/DarkModeSwitch';
 import SocialGrid from '../components/SocialGrid';
@@ -32,8 +32,8 @@ const Index = ({ data }) => {
         {/* <Heading fontSize={['3xl', '5xl']}>Hey everyone, Miguel here!</Heading> */}
         {/* <Heading fontSize={['3xl', '5xl']}>Miguel de los Reyes</Heading> */}
         <Link href="/resume.pdf" external>
-          <Img
-            fixed={data.file.childImageSharp.fixed}
+          <GatsbyImage
+            image={data.file.childImageSharp.gatsbyImageData}
             alt="Miguel de los Reyes"
             style={{
               borderRadius: '50%',
@@ -52,9 +52,7 @@ export const query = graphql`
   query MyQuery {
     file(relativePath: { eq: "mig.jpg" }) {
       childImageSharp {
-        fixed(height: 750, width: 750) {
-          ...GatsbyImageSharpFixed
-        }
+        gatsbyImageData(height: 750, width: 750, layout: FIXED)
       }
     }
   }

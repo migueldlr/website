@@ -7,19 +7,15 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-prefetch-google-fonts`,
+      resolve: `gatsby-plugin-google-fonts`,
       options: {
-        fonts: [
-          {
-            family: `Nunito`,
-            variants: [`400`, `700`],
-          },
-        ],
+        fonts: [`nunito\:400,700`],
       },
     },
+    `gatsby-plugin-image`,
     `gatsby-plugin-sharp`,
     `gatsby-transformer-sharp`,
     `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-chakra-ui`,
+    `@chakra-ui/gatsby-plugin`,
   ],
 };
